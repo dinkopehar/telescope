@@ -1,9 +1,11 @@
 [project]
 name = "telescope"
 version = "0.1.0"
-description = "Add your description here"
+description = "Telescope is a Portfolio Management Portal that helps users manage various real estate properties"
 readme = "README.md"
+license = { file = "LICENSE.txt" }
 requires-python = ">=3.12"
+authors = [{ name = "Dinko Pehar", email = "dinko@pehar.dev" }]
 dependencies = [
     "django>=5.1.2",
     "django-cors-headers>=4.5.0",
@@ -12,6 +14,11 @@ dependencies = [
     "psycopg2-binary>=2.9.10",
     "django-environ>=0.11.2",
 ]
+
+[project.urls]
+"Homepage" = "https://telescope-sg6jx.ondigitalocean.app/"
+"Bug Reports" = "https://github.com/dinkopehar/telescope/issues"
+"Source" = "https://github.com/dinkopehar/telescope"
 
 [tool.pyright]
 venvPath = "."
