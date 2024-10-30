@@ -2,28 +2,38 @@ from pathlib import Path
 
 import environ
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
 # Take environment variables from .env file
 environ.Env.read_env(BASE_DIR / '.env')
 
+DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
-DEBUG = env('DEBUG')
 
 DATABASES = {
-    'default': env.db(),
+    'default': env.db()
 }
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.ondigitalocean.app']
 
+if DEBUG:
+    ALLOWED_HOSTS.append('127.0.0.1')
+    ALLOWED_HOSTS.append('localhost')
+    ALLOWED_HOSTS.append('0.0.0.0')
 
-# Application definition
+# Apps created by Telescope (first party apps)
+TELESCOPE_APPS = [
+    'accounts',
+]
+
+# Custom installed dependencies
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'corsheaders',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -32,17 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'corsheaders',
-    'accounts',
-]
+] + THIRD_PARTY_APPS + TELESCOPE_APPS
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
 }
@@ -79,13 +86,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# settings.py
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
