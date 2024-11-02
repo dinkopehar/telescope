@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+import { BASE_URL } from "./constants";
+
 function App() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/auth/test/")
+      .get(`${BASE_URL}/auth/test/`)
       .then((response) => setMessage(response.data.message))
       .catch((error) => console.error("Error:", error));
   }, []);
