@@ -5,7 +5,9 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
+env = environ.Env(
+    DEBUG=(bool, False)
+)
 # Take environment variables from .env file
 environ.Env.read_env(BASE_DIR / '.env')
 
@@ -20,9 +22,7 @@ DATABASES = {
 ALLOWED_HOSTS = ['.ondigitalocean.app']
 
 if DEBUG:
-    ALLOWED_HOSTS.append('127.0.0.1')
-    ALLOWED_HOSTS.append('localhost')
-    ALLOWED_HOSTS.append('0.0.0.0')
+    ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost', '0.0.0.0'])
 
 # Apps created by Telescope (first party apps)
 TELESCOPE_APPS = [
