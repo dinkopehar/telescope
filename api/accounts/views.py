@@ -4,12 +4,10 @@ from rest_framework import status
 from rest_framework.response import Response
 from .serializers import RegisterSerializer
 from rest_framework import generics
+from rest_framework import permissions
 
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
-
-class TestView(APIView):
-    def get(self, request):
-        return Response({'message': 'Hello Test!'}, status=status.HTTP_200_OK)
+    permission_classes = [permissions.AllowAny]
