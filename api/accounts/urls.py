@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.urls import path
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,

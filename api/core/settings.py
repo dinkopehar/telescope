@@ -6,9 +6,7 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
+env = environ.Env(DEBUG=(bool, False))
 # Take environment variables from .env file
 environ.Env.read_env(BASE_DIR / '.env')
 
@@ -16,14 +14,12 @@ DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
 
-DATABASES = {
-    'default': env.db()
-}
+DATABASES = {'default': env.db()}
 
 ALLOWED_HOSTS = ['.ondigitalocean.app']
 
 if DEBUG:
-    ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost', '0.0.0.0'])
+    ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
 
 # Apps created by Telescope (first party apps)
 TELESCOPE_APPS = [
@@ -31,26 +27,24 @@ TELESCOPE_APPS = [
 ]
 
 # Custom installed dependencies
-THIRD_PARTY_APPS = [
-    'rest_framework',
-    'corsheaders',
-    'rest_framework_simplejwt'
-]
+THIRD_PARTY_APPS = ['rest_framework', 'corsheaders', 'rest_framework_simplejwt']
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-] + THIRD_PARTY_APPS + TELESCOPE_APPS
+INSTALLED_APPS = (
+    [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+    ]
+    + THIRD_PARTY_APPS
+    + TELESCOPE_APPS
+)
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -72,7 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'

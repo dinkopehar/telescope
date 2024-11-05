@@ -1,6 +1,4 @@
 from django.contrib.auth import get_user_model
-from rest_framework.test import APIRequestFactory
-from rest_framework.test import APIClient
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
@@ -9,21 +7,20 @@ from .serializers import RegisterSerializer
 
 User = get_user_model()
 
+
 class AccountTests(APITestCase):
-
     def setUp(self):
-
         self.user_data = {
             'username': 'test_user',
             'password': 'test_password',
             'password2': 'test_password',
-            'email': 'test@test.com'
+            'email': 'test@test.com',
         }
 
         self.invalid_user_data = {
             'username': 'test_user',
             'password': 'test_password',
-            'email': 'test@test.com'
+            'email': 'test@test.com',
         }
 
     def test_create_account_with_valid_data(self):
@@ -62,15 +59,16 @@ class AccountTests(APITestCase):
 
         serializer = RegisterSerializer(data=self.user_data)
         self.assertTrue(serializer.is_valid())
+        serializer.save()
 
-        obj = serializer.save()
-        response = self.client.post(url, {
-            'username': self.user_data['username'],
-            'password': self.user_data['password']
-        }, format='json')
+        response = self.client.post(
+            url,
+            {'username': self.user_data['username'], 'password': self.user_data['password']},
+            format='json',
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("access", response.data)
-        self.assertIn("refresh", response.data)
+        self.assertIn('access', response.data)
+        self.assertIn('refresh', response.data)
 
     def test_refresh(self):
         """
