@@ -14,6 +14,10 @@ COPY pyproject.toml /app/
 RUN pip install --upgrade pip
 RUN pip install .
 
+# Setup GDAL
+RUN apt-get update &&\
+    apt-get install -y binutils libproj-dev gdal-bin python-gdal python3-gdal
+
 # Copy the Django project code
 COPY ./api /app/
 
