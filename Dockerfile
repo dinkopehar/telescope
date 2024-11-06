@@ -16,7 +16,7 @@ RUN pip install .
 
 # Setup GDAL
 RUN apt-get update &&\
-    apt-get install -y binutils libproj-dev gdal-bin python-gdal python3-gdal
+    apt-get install -y binutils libproj-dev gdal-bin python3-gdal
 
 # Copy the Django project code
 COPY ./api /app/
