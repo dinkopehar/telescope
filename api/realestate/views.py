@@ -3,6 +3,7 @@ from .models import Portfolio, Property
 from .serializers import PortfolioSerializer, PropertySerializer
 from rest_framework.permissions import IsAuthenticated
 
+
 class PortfolioViewSet(viewsets.ModelViewSet):
     queryset = Portfolio.objects.all()
     serializer_class = PortfolioSerializer
@@ -13,6 +14,7 @@ class PortfolioViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
 
 class PropertyViewSet(viewsets.ModelViewSet):
     queryset = Property.objects.all()

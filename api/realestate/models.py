@@ -17,13 +17,18 @@ class Portfolio(models.Model):
 class Property(models.Model):
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='properties')
     address = models.PointField(null=False, blank=False)
-    estimated_value = models.DecimalField(max_digits=10, decimal_places=2, help_text='Estimated value of the property')
-    construction_year = models.PositiveIntegerField(validators=[MaxValueValidator(datetime.now().year), MinValueValidator(1960)], help_text='Year of construction')
+    estimated_value = models.DecimalField(
+        max_digits=10, decimal_places=2, help_text='Estimated value of the property'
+    )
+    construction_year = models.PositiveIntegerField(
+        validators=[MaxValueValidator(datetime.now().year), MinValueValidator(1960)],
+        help_text='Year of construction',
+    )
     square_footage = models.PositiveIntegerField(help_text='Square footage of the property')
     image = models.ImageField(upload_to='properties', null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = "properties"
+        verbose_name_plural = 'properties'
 
     def __str__(self):
         return f'{self.portfolio.name} - {self.estimated_value}'
