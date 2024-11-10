@@ -29,6 +29,8 @@ TELESCOPE_APPS = [
 
 # Custom installed dependencies
 THIRD_PARTY_APPS = ['rest_framework', 'corsheaders', 'rest_framework_simplejwt']
+if DEBUG:
+    THIRD_PARTY_APPS.append('whitenoise.runserver_nostatic')
 
 INSTALLED_APPS = (
     [
@@ -62,6 +64,7 @@ SIMPLE_JWT = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
