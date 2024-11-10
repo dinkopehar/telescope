@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import TitleCard from "../../components/Cards/TitleCard";
 import { openModal } from "../../store/modalSlice";
 import { RootState, AppDispatch } from "../../store";
-import { getPortfolios } from "./portfolioSlice";
+import { getPortfolios, setData } from "./portfolioSlice";
+import SearchBar from "../../components/Input/SearchBar";
 
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
 
@@ -35,8 +36,22 @@ interface Portfolio {
   name: string;
 }
 
-const TopSideButtons = () => {
+const TopSideButtons = ({ removeFilter, applySearch }) => {
   const dispatch = useDispatch();
+
+  const [searchText, setSearchText] = useState("");
+
+  const removeAppliedFilter = () => {
+    setSearchText("");
+  };
+
+  useEffect(() => {
+    if (searchText == "") {
+      removeAppliedFilter();
+    } else {
+      applySearch(searchText);
+    }
+  }, [searchText]);
 
   const openAddNewPortfolioModal = () => {
     dispatch(
@@ -50,6 +65,11 @@ const TopSideButtons = () => {
 
   return (
     <div className="inline-block float-right">
+      <SearchBar
+        searchText={searchText}
+        styleClass="mr-4"
+        setSearchText={setSearchText}
+      />
       <button
         className="btn px-6 btn-sm normal-case btn-primary"
         onClick={() => openAddNewPortfolioModal()}
@@ -99,12 +119,20 @@ function Portfolios() {
     );
   };
 
+  // Search according to name
+  const applySearch = (value) => {
+    let filteredPortfolios = data.filter((portfolio) => {
+      return portfolio.name.toLowerCase().includes(value.toLowerCase());
+    });
+    dispatch(setData(filteredPortfolios));
+  };
+
   return (
     <>
       <TitleCard
         title="Current Portfolios"
         topMargin="mt-2"
-        TopSideButtons={<TopSideButtons />}
+        TopSideButtons={<TopSideButtons applySearch={applySearch} />}
       >
         {/* Leads List in table format loaded from slice after api call */}
         <div className="overflow-x-auto w-full">

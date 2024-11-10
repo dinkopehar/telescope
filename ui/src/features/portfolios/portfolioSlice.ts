@@ -54,7 +54,12 @@ export const portfolioSlice = createSlice({
     isLoading: false,
     data: [],
   } as PortfolioState,
-  reducers: {},
+  reducers: {
+    setData: (state, action) => {
+      console.log(action.payload);
+      state.data = action.payload;
+    },
+  },
 
   extraReducers: (builder: ActionReducerMapBuilder<PortfolioState>) => {
     builder
@@ -94,5 +99,7 @@ export const portfolioSlice = createSlice({
       });
   },
 });
+
+export const { setData } = portfolioSlice.actions;
 
 export default portfolioSlice.reducer;

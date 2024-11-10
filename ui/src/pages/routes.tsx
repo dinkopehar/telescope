@@ -11,6 +11,7 @@ const Welcome = lazy(() => import("./protected/Welcome"));
 const Page404 = lazy(() => import("./protected/404"));
 const Blank = lazy(() => import("./protected/Blank"));
 const Portfolios = lazy(() => import("../pages/protected/Portfolios"));
+const Properties = lazy(() => import("../pages/protected/Properties"));
 const Integrations = lazy(() => import("../pages/protected/Integrations"));
 
 const iconClasses: string = `h-6 w-6`;
@@ -37,6 +38,10 @@ export const protectedRoutes = [
   {
     path: "/portfolios",
     component: Portfolios,
+  },
+  {
+    path: "/properties",
+    component: Properties,
   },
   {
     path: "/dashboard",

@@ -56,4 +56,20 @@ export const deletePortfolio = async (id: number) => {
   return await apiClient.delete(`api/portfolios/${id}/`);
 };
 
+// PROPERTY RELATED API CALLS
+
+export const getProperties = async () => {
+  return await apiClient.get("api/properties/");
+};
+
+export const createProperty = async (name: string) => {
+  return await apiClient.post("api/properties/", {
+    name: name,
+  });
+};
+
+export const deleteProperty = async (id: number) => {
+  return await apiClient.delete(`api/properties/${id}/`);
+};
+
 export default apiClient;

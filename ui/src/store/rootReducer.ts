@@ -4,6 +4,7 @@ import headerSlice from "./headerSlice";
 import modalSlice from "./modalSlice";
 import rightDrawerSlice from "./rightDrawerSlice";
 import portfolioSlice from "../features/portfolios/portfolioSlice";
+import propertiesSlice from "../features/properties/propertiesSlice";
 
 const rootReducer = combineReducers({
   user: userSlice,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   rightDrawer: rightDrawerSlice,
   modal: modalSlice,
   portfolio: portfolioSlice,
+  properties: propertiesSlice,
 });
 
 export default rootReducer;

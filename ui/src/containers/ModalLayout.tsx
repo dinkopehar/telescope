@@ -1,7 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import { closeModal } from "../store/modalSlice";
 import AddPortfolioModalBody from "../features/portfolios/AddPortfolioModal";
+import AddPropertyModalBody from "../features/properties/AddPropertyModal";
 import ConfirmationModalBody from "./ConfirmationModalBody";
+import MapModal from "../features/properties/MapModal";
 
 interface ModalState {
   modal: {
@@ -16,6 +18,8 @@ interface ModalState {
 const MODAL_BODY_TYPES = {
   USER_DETAIL: "USER_DETAIL",
   PORTFOLIO_ADD_NEW: "PORTFOLIO_ADD_NEW",
+  PROPERTY_ADD_NEW: "PROPERTY_ADD_NEW",
+  MAP: "MAP",
   CONFIRMATION: "CONFIRMATION",
   DEFAULT: "",
 };
@@ -33,7 +37,9 @@ function ModalLayout(): JSX.Element {
   return (
     <>
       <div className={`modal ${isOpen ? "modal-open" : ""}`}>
-        <div className={`modal-box  ${size === "lg" ? "max-w-5xl" : ""}`}>
+        <div
+          className={`modal-box w-11/12  ${size === "lg" ? "max-w-5xl" : ""}`}
+        >
           <button
             className="btn btn-sm btn-circle absolute right-2 top-2"
             onClick={() => close()}
@@ -51,11 +57,20 @@ function ModalLayout(): JSX.Element {
                   extraObject={extraObject}
                 />
               ),
+              [MODAL_BODY_TYPES.PROPERTY_ADD_NEW]: (
+                <AddPropertyModalBody
+                  closeModal={close}
+                  extraObject={extraObject}
+                />
+              ),
               [MODAL_BODY_TYPES.CONFIRMATION]: (
                 <ConfirmationModalBody
                   extraObject={extraObject}
                   closeModal={close}
                 />
+              ),
+              [MODAL_BODY_TYPES.MAP]: (
+                <MapModal extraObject={extraObject} closeModal={close} />
               ),
               [MODAL_BODY_TYPES.DEFAULT]: <div></div>,
             }[bodyType]
