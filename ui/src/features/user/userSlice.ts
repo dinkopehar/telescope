@@ -56,8 +56,8 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        localStorage.setItem("access_token", action.payload.access);
-        localStorage.setItem("refresh_token", action.payload.refresh);
+        localStorage.setItem("accessToken", action.payload.access);
+        localStorage.setItem("refreshToken", action.payload.refresh);
         window.location.href = "/app/welcome"; // Redirect on successful login
       })
       .addCase(loginUser.rejected, (state, action) => {

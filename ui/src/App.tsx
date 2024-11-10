@@ -10,10 +10,10 @@ import { themeChange } from "theme-change";
 import checkAuth from "./utils/checkAuth";
 
 // Lazy loading pages
+const Layout = lazy(() => import("./containers/Layout"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 // TODO: Add forgot password page
-//const Layout = lazy(() => import("./containers/Layout"));
 
 const accessToken = checkAuth();
 
@@ -27,6 +27,8 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path="app/*" element={<Layout />} />
 
         {/* Fallback route for undefined paths */}
         <Route

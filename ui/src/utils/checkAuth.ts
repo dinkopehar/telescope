@@ -1,12 +1,25 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from "axios";
+import { refreshToken } from "../api";
 
 const checkAuth = (): string | null => {
-  const ACCESS_TOKEN = localStorage.getItem("access_token");
+  const ACCESS_TOKEN = localStorage.getItem("accessToken");
+  const REFRESH_TOKEN = localStorage.getItem("refreshToken");
   const PUBLIC_ROUTES = ["login", "register"];
 
   const isPublicPage = PUBLIC_ROUTES.some((route) =>
     window.location.href.includes(route),
   );
+
+  if (REFRESH_TOKEN) {
+    refreshToken(REFRESH_TOKEN)
+      .then((response) => {
+        localStorage.setItem("accessToken", response.data.access);
+      })
+      .catch(() => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+      });
+  }
 
   if (!ACCESS_TOKEN && !isPublicPage) {
     window.location.href = "/login";
