@@ -26,7 +26,7 @@ export const register = async (
   password2: string,
   email: string,
 ) => {
-  return await apiClient.post("auth/register/", {
+  return await axios.post(`${API_URL}auth/register/`, {
     username,
     password,
     password2,
