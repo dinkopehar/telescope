@@ -17,6 +17,7 @@ SECRET_KEY = env('SECRET_KEY')
 DATABASES = {'default': env.db()}
 
 ALLOWED_HOSTS = ['.ondigitalocean.app']
+CSRF_TRUSTED_ORIGINS = ['https://*.ondigitalocean.app']
 
 if DEBUG:
     ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
