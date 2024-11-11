@@ -1,12 +1,15 @@
 # Portfolio Management Portal
 
-This project is a Portfolio Management Portal that helps users manage various real estate properties. Each user can register, log in, and set their preferences. Within their account, users can create multiple portfolios, each containing properties (such as flats or houses) with relevant details and organization features.
+This project is a Portfolio Management Portal that helps users manage various real estate properties. Each user can register, log in, and set their prefered theme. Within their account, users can create multiple portfolios, each containing properties (such as flats or houses) with relevant details and organization features.
 
-TODO: Add a screenshot of the app
-![](https://www.logistec.com/wp-content/uploads/2017/12/placeholder.png)
 
-Available at: https://telescope-sg6jx.ondigitalocean.app/
+![](./.github/assets/2.png)
 
+
+React UI availableat: https://telescope-8fx.pages.dev/
+Django Backend: https://telescope-sg6jx.ondigitalocean.app/
+
+Both are connected, please visit first link.
 
 ## Requirements  (Prerequisites)
 Tools and packages required to successfully install this project:
@@ -20,35 +23,65 @@ Tools and packages required to successfully install this project:
 ## Installation
 To install this project, follow these steps(assuming Linux):
 
-`$ git clone`
-
-`$ uv ...`
+- `$ git clone https://github.com/dinkopehar/telescope.git`
+- `$ cd telescope/ui`
+- `$ pnpm i`
+- Create `.env` file with `VITE_API_URL=http://127.0.0.1:8000/`
+- `cd ..`
+- Create virtual environment and install dependencies (depends on how you create it)
+- Create `.env` file in `api` directory with `SECRET_KEY`, `DEBUG` and `DATABASE_URL`.
+- With PostgreSQL(PostGIS enabled) running, run `python api/manage.py migrate`
+- Run both projects
 
 ## Screenshots
 
 TODO: Add screenshots of the app
 
-![Screenshots of login]()
-![Screenshots of register]()
-![Screenshots of portfolio]()
-![Screenshots of properties]()
+![](./.github/assets/1.png)
+![](./.github/assets/3.png)
+![](./.github/assets/4.png)
+![](./.github/assets/5.png)
 
 ## Features
 
 * Used Django and DRF to create API
 * Stateless auth using JWTs
-* ShadcnUI for styling
-* Deployed on Digital Ocean
-* AI stuff ??
+* Daisy UI and TailwindCSS
+* Backend deployed on Digital Ocean as Docker container
+* Static site is served from CloudFlare Pages
+* Database platform is Supabase (PostgreSQL hosting with PostGIS enabled)
+* Formating and linting using Ruff, ESLint
+* Github Actions for CI/CD (enforcing rules and formatting)
+* Redux Toolkit for state management
 
 ## Running the tests
 
-To run tests, simply:
-- TODO
+Tests are implemented for backend side. To run tests, simply run:
+
+`python api/manage.py test api`
+
+As for frontend side, they are missing but could be added in the future.
 
 ## Deployment Notes
 
+The following steps are required to deploy the project:
 
+- Create a new Digital Ocean project for hosting backend app of "App Platform"
+- Create PostgreSQL database with PostGIS enabled (hosted on Supabase)
+- Deploy frontend app. The easiest way to deploy is by far CloudFlare Pages. Frontend app could also be serve from S3 bucket.
+- Add the following environment variables to the project:
+  - For Frontend app, create .env file in the `ui` directory and add `VITE_API_URL=https://<your-project-name>.ondigitalocean.app/`. On other platforms, expose this variable as an environment variable.
+  - For Backend app, create .env file in the `api` directory and add `SECRET_KEY`, `DEBUG` and `DATABASE_URL`. On other platforms, expose this variable as an environment variable. NOTE: `DATABASE_URL` when PostGIS is disabled goes like `postgis://USER:PASS@DATABASEURL:PORT/DATABASE_NAME`.
+
+## What could be improved ?
+
+- Add more tests to backend side
+- Add tests to frontend side
+- Restructure components in UI folder
+- Use single Cloud provider for frontend, backend and database. The reason for multi cloud deployment is primarly because some services are better on other Cloud providers and company uses multi cloud stuff (open to discussion)
+- Create "development" instance on PR so that frontend and backend can be tested before merging
+- Upload static assets to S3 using `django-storages` and CloudFront
+- Parts of UI are mocked. Can be improved.
 
 ## How to Contribute
 

@@ -20,3 +20,9 @@ class PropertyViewSet(viewsets.ModelViewSet):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return self.queryset.filter(portfolio__user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
