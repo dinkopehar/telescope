@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+
+  database:
+    image: docker.io/postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: telescope
+      POSTGRES_USER: telescope
+      POSTGRES_DB: telescope
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data:z
+    ports:
+      - "5432:5432"
