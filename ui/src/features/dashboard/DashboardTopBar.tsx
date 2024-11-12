@@ -1,4 +1,3 @@
-import ArrowDownTrayIcon from "@heroicons/react/24/outline/ArrowDownTrayIcon";
 import EnvelopeIcon from "@heroicons/react/24/outline/EnvelopeIcon";
 import EllipsisVerticalIcon from "@heroicons/react/24/outline/EllipsisVerticalIcon";
 import ArchiveBoxArrowDownIcon from "@heroicons/react/24/outline/ArchiveBoxArrowDownIcon";

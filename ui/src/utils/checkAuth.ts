@@ -4,9 +4,8 @@ import { refreshToken } from "../api";
 const checkAuth = (): string | null => {
   const ACCESS_TOKEN = localStorage.getItem("accessToken");
   const REFRESH_TOKEN = localStorage.getItem("refreshToken");
-  const PUBLIC_ROUTES = ["login", "register"];
 
-  const isPublicPage = PUBLIC_ROUTES.some((route) =>
+  const isPublicPage = ["login", "register"].some((route) =>
     window.location.href.includes(route),
   );
 
