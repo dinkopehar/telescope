@@ -8,10 +8,12 @@ import { getPortfolios, setData } from "./portfolioSlice";
 import SearchBar from "../../components/Input/SearchBar";
 
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
+import PencilIcon from "@heroicons/react/24/outline/PencilIcon";
 
 interface ModalBodyTypes {
   USER_DETAIL: string;
   PORTFOLIO_ADD_NEW: string;
+  PORTFOLIO_UPDATE: string;
   CONFIRMATION: string;
   DEFAULT: string;
 }
@@ -23,6 +25,7 @@ interface ConfirmationModalCloseTypes {
 const MODAL_BODY_TYPES: ModalBodyTypes = {
   USER_DETAIL: "USER_DETAIL",
   PORTFOLIO_ADD_NEW: "PORTFOLIO_ADD_NEW",
+  PORTFOLIO_UPDATE: "PORTFOLIO_UPDATE",
   CONFIRMATION: "CONFIRMATION",
   DEFAULT: "",
 };
@@ -48,6 +51,7 @@ const TopSideButtons = ({ removeFilter, applySearch }) => {
   useEffect(() => {
     if (searchText == "") {
       removeAppliedFilter();
+      applySearch("");
     } else {
       applySearch(searchText);
     }
@@ -119,12 +123,28 @@ function Portfolios() {
     );
   };
 
+  const updateCurrentPortfolio = (name: string, id: number) => {
+    dispatch(
+      openModal({
+        title: "Update Portfolio",
+        bodyType: MODAL_BODY_TYPES.PORTFOLIO_UPDATE,
+        extraObject: {
+          name,
+          id,
+        },
+      }),
+    );
+  };
+
   // Search according to name
   const applySearch = (value) => {
-    let filteredPortfolios = data.filter((portfolio) => {
-      return portfolio.name.toLowerCase().includes(value.toLowerCase());
+    const updatedPortfolios = data.map((element) => {
+      return {
+        ...element,
+        show: element.name.toLowerCase().includes(value.toLowerCase()),
+      };
     });
-    dispatch(setData(filteredPortfolios));
+    dispatch(setData(updatedPortfolios));
   };
 
   return (
@@ -147,34 +167,44 @@ function Portfolios() {
               </tr>
             </thead>
             <tbody>
-              {data.map((portfolio: Portfolio, k: number) => {
-                return (
-                  <tr key={k}>
-                    <td>
-                      <div className="flex items-center space-x-3">
-                        <div>
-                          <div className="font-bold">{portfolio.id}</div>
+              {data
+                .filter((p) => p.show)
+                .map((portfolio: Portfolio, k: number) => {
+                  return (
+                    <tr key={k}>
+                      <td>
+                        <div className="flex items-center space-x-3">
+                          <div>
+                            <div className="font-bold">{portfolio.id}</div>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>{portfolio.name}</td>
-                    <td>
-                      {moment(new Date())
-                        .add(-5 * (k + 2), "days")
-                        .format("DD MMM YY")}
-                    </td>
-                    <td>{getDummyStatus()}</td>
-                    <td>
-                      <button
-                        className="btn btn-square btn-ghost"
-                        onClick={() => deleteCurrentPortfolio(portfolio.id)}
-                      >
-                        <TrashIcon className="w-5" />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+                      </td>
+                      <td>{portfolio.name}</td>
+                      <td>
+                        {moment(new Date())
+                          .add(-5 * (k + 2), "days")
+                          .format("DD MMM YY")}
+                      </td>
+                      <td>{getDummyStatus()}</td>
+                      <td>
+                        <button
+                          className="btn btn-square btn-ghost"
+                          onClick={() => deleteCurrentPortfolio(portfolio.id)}
+                        >
+                          <TrashIcon className="w-5" />
+                        </button>
+                        <button
+                          className="btn btn-square btn-ghost"
+                          onClick={() =>
+                            updateCurrentPortfolio(portfolio.name, portfolio.id)
+                          }
+                        >
+                          <PencilIcon className="w-5" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

@@ -40,6 +40,10 @@ export const refreshToken = async (refreshToken: string) => {
   });
 };
 
+export const dashboard = async () => {
+  return await apiClient.get("api/dashboard");
+};
+
 // PORTFOLIO RELATED API CALLS
 
 export const getPortfolios = async () => {
@@ -56,15 +60,28 @@ export const deletePortfolio = async (id: number) => {
   return await apiClient.delete(`api/portfolios/${id}/`);
 };
 
+export const updatePortfolio = async (id: number, name: string) => {
+  return await apiClient.patch(`api/portfolios/${id}/`, {
+    name: name,
+  });
+};
+
 // PROPERTY RELATED API CALLS
 
 export const getProperties = async () => {
   return await apiClient.get("api/properties/");
 };
 
-export const createProperty = async (name: string) => {
+export const createProperty = async (propertyObj: any) => {
   return await apiClient.post("api/properties/", {
-    name: name,
+    portfolio: propertyObj.portfolio,
+    address: {
+      latitude: propertyObj.latitude,
+      longitude: propertyObj.longitude,
+    },
+    estimated_value: propertyObj.estimatedValue,
+    construction_year: propertyObj.constructionYear,
+    square_footage: propertyObj.squareFootage,
   });
 };
 

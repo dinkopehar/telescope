@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { closeModal } from "../store/modalSlice";
 import AddPortfolioModalBody from "../features/portfolios/AddPortfolioModal";
 import AddPropertyModalBody from "../features/properties/AddPropertyModal";
+import UpdatePortfolioModalBody from "../features/portfolios/UpdatePortfolioModal";
 import ConfirmationModalBody from "./ConfirmationModalBody";
 import MapModal from "../features/properties/MapModal";
 
@@ -19,6 +20,7 @@ const MODAL_BODY_TYPES = {
   USER_DETAIL: "USER_DETAIL",
   PORTFOLIO_ADD_NEW: "PORTFOLIO_ADD_NEW",
   PROPERTY_ADD_NEW: "PROPERTY_ADD_NEW",
+  PORTFOLIO_UPDATE: "PORTFOLIO_UPDATE",
   MAP: "MAP",
   CONFIRMATION: "CONFIRMATION",
   DEFAULT: "",
@@ -53,6 +55,12 @@ function ModalLayout(): JSX.Element {
             {
               [MODAL_BODY_TYPES.PORTFOLIO_ADD_NEW]: (
                 <AddPortfolioModalBody
+                  closeModal={close}
+                  extraObject={extraObject}
+                />
+              ),
+              [MODAL_BODY_TYPES.PORTFOLIO_UPDATE]: (
+                <UpdatePortfolioModalBody
                   closeModal={close}
                   extraObject={extraObject}
                 />

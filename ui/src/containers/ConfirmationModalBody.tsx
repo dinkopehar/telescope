@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { deletePortfolio } from "../features/portfolios/portfolioSlice";
 import { showNotification } from "../store/headerSlice";
+import { deleteProperty } from "../features/properties/propertiesSlice";
 
 function ConfirmationModalBody({ extraObject, closeModal }) {
   const dispatch = useDispatch();
@@ -11,6 +12,9 @@ function ConfirmationModalBody({ extraObject, closeModal }) {
     if (type === "PORTFOLIO_DELETE") {
       dispatch(deletePortfolio(index));
       dispatch(showNotification({ message: "Portfolio Deleted!", status: 1 }));
+    } else if (type === "PROPERTY_DELETE") {
+      dispatch(deleteProperty(index));
+      dispatch(showNotification({ message: "Property Deleted!", status: 1 }));
     }
     closeModal();
   };

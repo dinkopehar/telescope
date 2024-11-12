@@ -8,6 +8,7 @@ import {
   getPortfolios as getPortfoliosApi,
   createPortfolio as createPortfolioApi,
   deletePortfolio as deletePortfolioApi,
+  updatePortfolio as updatePortfolioApi,
 } from "../../api";
 
 interface Portfolio {
@@ -48,6 +49,15 @@ export const deletePortfolio = createAsyncThunk(
   },
 );
 
+export const updatePortfolio = createAsyncThunk(
+  "updatePortfolio",
+  async (updatedPortfolioObj) => {
+    const { id, name } = updatedPortfolioObj;
+    const response = await updatePortfolioApi(id, name);
+    return response.data;
+  },
+);
+
 export const portfolioSlice = createSlice({
   name: "portfolios",
   initialState: {
@@ -56,7 +66,6 @@ export const portfolioSlice = createSlice({
   } as PortfolioState,
   reducers: {
     setData: (state, action) => {
-      console.log(action.payload);
       state.data = action.payload;
     },
   },
@@ -67,7 +76,13 @@ export const portfolioSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getPortfolios.fulfilled, (state, action) => {
-        state.data = action.payload;
+        console.log(action.payload);
+        state.data = action.payload.map((element) => {
+          return {
+            ...element,
+            show: true,
+          };
+        });
         state.isLoading = false;
       })
       .addCase(getPortfolios.rejected, (state) => {
@@ -77,7 +92,6 @@ export const portfolioSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createPortfolio.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.data.push(action.payload);
         state.isLoading = false;
       })
@@ -95,6 +109,15 @@ export const portfolioSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(deletePortfolio.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(updatePortfolio.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updatePortfolio.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(updatePortfolio.rejected, (state) => {
         state.isLoading = false;
       });
   },

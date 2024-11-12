@@ -34,8 +34,8 @@ export const getProperties = createAsyncThunk("getProperties", async () => {
 
 export const createProperty = createAsyncThunk(
   "createProperty",
-  async (name: string) => {
-    const response = await createPropertyApi(name);
+  async (propertyObj: any) => {
+    const response = await createPropertyApi(propertyObj);
     return response.data;
   },
 );
@@ -72,7 +72,6 @@ export const propertySlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createProperty.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.data.push(action.payload);
         state.isLoading = false;
       })

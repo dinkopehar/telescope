@@ -34,7 +34,10 @@ const CONFIRMATION_MODAL_CLOSE_TYPES: ConfirmationModalCloseTypes = {
 interface Property {
   id: number;
   portfolio: string;
-  address: string;
+  address: {
+    latitude: number;
+    longitude: number;
+  };
   estimated_value: number;
   construction_year: number;
   square_footage: number;
@@ -68,17 +71,6 @@ const TopSideButtons = () => {
 function Properties() {
   const dispatch = useDispatch();
   const { data } = useSelector((state: RootState) => state.properties);
-
-  const parseCoordinates = (coordinateString) => {
-    // Remove the "SRID=4326;POINT " part and any parentheses
-    const coordinates = coordinateString
-      .replace("SRID=4326;POINT ", "")
-      .replace(/[()]/g, "");
-
-    const [longitude, latitude] = coordinates.split(" ").map(Number);
-
-    return `LNG: ${latitude}, LAT:${longitude}`;
-  };
 
   const openMapModal = () => {
     dispatch(
@@ -141,7 +133,8 @@ function Properties() {
                     </td>
                     <td>{properties.portfolio}</td>
                     <td onClick={() => openMapModal(properties.address)}>
-                      {parseCoordinates(properties.address)}
+                      {properties.address.latitude},
+                      {properties.address.longitude}
                     </td>
                     <td>{properties.estimated_value}</td>
                     <td>{properties.construction_year}</td>
