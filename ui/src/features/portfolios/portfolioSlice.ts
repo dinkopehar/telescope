@@ -76,7 +76,6 @@ export const portfolioSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getPortfolios.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.data = action.payload.map((element) => {
           return {
             ...element,
@@ -92,7 +91,7 @@ export const portfolioSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createPortfolio.fulfilled, (state, action) => {
-        state.data.push(action.payload);
+        state.data.push({ ...action.payload, show: true });
         state.isLoading = false;
       })
       .addCase(createPortfolio.rejected, (state) => {
@@ -114,7 +113,12 @@ export const portfolioSlice = createSlice({
       .addCase(updatePortfolio.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updatePortfolio.fulfilled, (state) => {
+      .addCase(updatePortfolio.fulfilled, (state, action) => {
+        state.data.splice(
+          state.data.findIndex((e) => e.id === action.meta.arg),
+          1,
+        );
+        state.data.push({ ...action.payload, show: true });
         state.isLoading = false;
       })
       .addCase(updatePortfolio.rejected, (state) => {
