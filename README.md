@@ -6,8 +6,8 @@ This project is a Portfolio Management Portal that helps users manage various re
 ![](./.github/assets/2.png)
 
 
-React UI availableat: https://telescope-8fx.pages.dev/
-Django Backend: https://telescope-sg6jx.ondigitalocean.app/
+~~React UI availableat: https://telescope-8fx.pages.dev/
+Django Backend: https://telescope-sg6jx.ondigitalocean.app/~~
 
 Both are connected, please visit first link.
 
